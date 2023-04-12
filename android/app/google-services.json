@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "248347461863",
+    "project_id": "talent-pro-assignment",
+    "storage_bucket": "talent-pro-assignment.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:248347461863:android:54ba1bb77836898b577a42",
+        "android_client_info": {
+          "package_name": "com.example.talent_pro_assignment"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "248347461863-i6felefcbc2205k6qocqvj1qlmi0em6p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCn6kzqAYfeDV-tkeckjC0orxWCM-g17nM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "248347461863-i6felefcbc2205k6qocqvj1qlmi0em6p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

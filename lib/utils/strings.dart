@@ -1,10 +1,12 @@
 class Strings {
   static const String appTitle = 'Talent Pro';
-  static const String empty = '';
-  static const String welcomeText = 'Welcome to Tourism';
   static const String home = 'Home';
   static const String signIn = 'Sign In';
   static const String signUp = 'Sign Up';
+  static const String errorMessage = 'Something went wrong! Please try again.';
+
+  static const String empty = '';
+  static const String welcomeText = 'Welcome to Talent Pro';
   static const String dontHaveAnAccount = 'Don\'t have an account?';
   static const String forgotPassword = 'Forgot Password';
   static const String confirmPassword = 'Confirm Password';

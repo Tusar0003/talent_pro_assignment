@@ -44,40 +44,63 @@ class SignInPageView extends StatelessView<SignInViewModel> {
       showHUD: viewModel.isLoading,
       hud: Widgets().progressBar(label: Strings.signingIn),
       builder: (context) => Scaffold(
-        body: _body(),
+        body: body(),
       ),
     );
   }
 
-  _body() {
+  body() {
     return SafeArea(
-      child: Container(
-        height: MediaQuery.of(_context).size.height,
-        margin: const EdgeInsets.all(
-          Constants.standardSpacing
+      child: SingleChildScrollView(
+        child: Container(
+          height: MediaQuery.of(_context).size.height,
+          margin: const EdgeInsets.only(
+              top: Constants.extraLargeSpacing,
+              bottom: Constants.standardSpacing,
+              left: Constants.standardSpacing,
+              right: Constants.standardSpacing
+          ),
+          child: Column(
+            children: [
+              const Image(
+                image: AssetImage('assets/images/ic_launcher.png'),
+              ),
+              const SizedBox(
+                height: Constants.extraLargeSpacing,
+              ),
+              welcomeText(),
+              const SizedBox(
+                height: Constants.mediumSpacing,
+              ),
+              emailLabel(),
+              emailField(),
+              const SizedBox(
+                height: Constants.mediumSpacing,
+              ),
+              passwordLabel(),
+              passwordField(),
+              const SizedBox(
+                height: Constants.mediumSpacing,
+              ),
+              signInButton(),
+              const SizedBox(
+                height: Constants.mediumSpacing,
+              ),
+              signUp(),
+            ],
+          ),
         ),
-        child: Column(
-          children: [
-            emailLabel(),
-            emailField(),
-            const SizedBox(
-              height: Constants.mediumSpacing,
-            ),
-            passwordLabel(),
-            passwordField(),
-            const SizedBox(
-              height: Constants.smallSpacing,
-            ),
-            signInButton(),
-            const SizedBox(
-              height: Constants.mediumSpacing,
-            ),
-            signUp(),
-            const SizedBox(
-              height: Constants.mediumSpacing,
-            ),
-          ],
-        ),
+      ),
+    );
+  }
+
+  welcomeText() {
+    return Text(
+      Strings.welcomeText,
+      style: GoogleFonts.poppins(
+          color: ColorHelper.primaryDarkColor,
+          fontSize: Constants.largeFontSize,
+          fontWeight: FontWeight.bold
       ),
     );
   }
@@ -110,10 +133,9 @@ class SignInPageView extends StatelessView<SignInViewModel> {
       ),
       child: TextFormField(
         controller: _emailTextController,
-        // initialValue: viewModel.mobileNumber,
         textAlign: TextAlign.start,
         cursorColor: Colors.black54,
-        keyboardType: TextInputType.text,
+        keyboardType: TextInputType.emailAddress,
         maxLength: Constants.defaultLength,
         style: Styles().textFormStyle(),
         decoration: InputDecoration(

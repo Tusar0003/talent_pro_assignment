@@ -33,6 +33,7 @@ class SignUpPageView extends StatelessView<SignUpViewModel> {
 
   final _emailTextController = TextEditingController();
   final _passwordTextController = TextEditingController();
+  final _confirmPasswordTextController = TextEditingController();
 
   SignUpPageView({super.key});
 
@@ -43,38 +44,45 @@ class SignUpPageView extends StatelessView<SignUpViewModel> {
 
     return WidgetHUD(
       showHUD: viewModel.isLoading,
-      hud: Widgets().progressBar(label: Strings.signingIn),
+      hud: Widgets().progressBar(),
       builder: (context) => Scaffold(
         appBar: Widgets().appBar(Strings.signUp),
-        body: _body(),
+        body: body(),
       ),
     );
   }
 
-  _body() {
+  body() {
     return SafeArea(
-      child: Container(
-        height: MediaQuery.of(_context).size.height,
-        margin: const EdgeInsets.all(
-          Constants.standardSpacing
-        ),
-        child: Column(
-          children: [
-            emailLabel(),
-            emailField(),
-            const SizedBox(
-              height: Constants.mediumSpacing,
-            ),
-            passwordLabel(),
-            passwordField(),
-            const SizedBox(
-              height: Constants.smallSpacing,
-            ),
-            signUpButton(),
-            const SizedBox(
-              height: Constants.mediumSpacing,
-            ),
-          ],
+      child: SingleChildScrollView(
+        child: Container(
+          height: MediaQuery.of(_context).size.height,
+          margin: const EdgeInsets.all(
+              Constants.standardSpacing
+          ),
+          child: Column(
+            children: [
+              emailLabel(),
+              emailField(),
+              const SizedBox(
+                height: Constants.smallSpacing,
+              ),
+              passwordLabel(),
+              passwordField(),
+              const SizedBox(
+                height: Constants.smallSpacing,
+              ),
+              confirmPasswordLabel(),
+              confirmPasswordField(),
+              const SizedBox(
+                height: Constants.mediumSpacing,
+              ),
+              signUpButton(),
+              const SizedBox(
+                height: Constants.mediumSpacing,
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -108,10 +116,9 @@ class SignUpPageView extends StatelessView<SignUpViewModel> {
       ),
       child: TextFormField(
         controller: _emailTextController,
-        // initialValue: viewModel.mobileNumber,
         textAlign: TextAlign.start,
         cursorColor: Colors.black54,
-        keyboardType: TextInputType.text,
+        keyboardType: TextInputType.emailAddress,
         maxLength: Constants.defaultLength,
         style: Styles().textFormStyle(),
         decoration: InputDecoration(
@@ -203,6 +210,72 @@ class SignUpPageView extends StatelessView<SignUpViewModel> {
     );
   }
 
+  confirmPasswordLabel() {
+    return Row(
+      children: [
+        Text(
+          Strings.confirmPassword,
+          style: Styles().labelStyle(),
+        ),
+        const SizedBox(
+          width: Constants.extraSmallSpacing,
+        ),
+        Widgets().mandatory()
+      ],
+    );
+  }
+
+  confirmPasswordField() {
+    return Container(
+      width: MediaQuery.of(_context).size.width,
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border.all(
+              color: Colors.grey.shade300
+          ),
+          borderRadius: BorderRadius.circular(Constants.extraSmallRadius)
+      ),
+      child: TextFormField(
+        controller: _confirmPasswordTextController,
+        textAlign: TextAlign.start,
+        cursorColor: Colors.black54,
+        obscureText: _viewModel.isConfirmPasswordInvisible,
+        keyboardType: TextInputType.text,
+        maxLength: Constants.defaultLength,
+        style: Styles().textFormStyle(),
+        decoration: InputDecoration(
+          counterText: '',
+          hintText: Strings.confirmPassword,
+          hintStyle: GoogleFonts.poppins(
+            color: Colors.grey.shade500,
+            fontSize: Constants.mediumFontSize,
+          ),
+          prefixIcon: Icon(
+            Icons.lock,
+            size: Constants.smallIconSize,
+            color: Colors.grey.shade500,
+          ),
+          suffixIcon: IconButton(
+            icon: Icon(
+              _viewModel.isConfirmPasswordInvisible ? Icons.visibility : Icons.visibility_off,
+              size: Constants.smallIconSize,
+              color: Colors.grey.shade500,
+            ),
+            onPressed: () {
+              _viewModel.onConfirmPressedPasswordToggle();
+            },
+          ),
+          border: InputBorder.none,
+          contentPadding: const EdgeInsets.all(Constants.mediumSpacing),
+        ),
+        onChanged: (String newVal) {
+          // viewModel.setMobileNumber(newVal);
+        },
+      ),
+    );
+  }
+
   signUpButton() {
     return SizedBox(
       width: MediaQuery.of(_context).size.width,
@@ -221,7 +294,8 @@ class SignUpPageView extends StatelessView<SignUpViewModel> {
         onPressed: () {
           _viewModel.validateSignIn(
               _emailTextController.text,
-              _passwordTextController.text
+              _passwordTextController.text,
+              _confirmPasswordTextController.text,
           );
         },
       ),

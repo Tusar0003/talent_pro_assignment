@@ -1,4 +1,8 @@
+import 'package:flutter/material.dart';
 import 'package:pmvvm/view_model.dart';
+import 'package:talent_pro_assignment/model/result.dart';
+import 'package:talent_pro_assignment/repository/sign_in_repository.dart';
+import 'package:talent_pro_assignment/utils/app_route.dart';
 import 'package:talent_pro_assignment/utils/toast_messages.dart';
 
 class SignInViewModel extends ViewModel {
@@ -24,9 +28,9 @@ class SignInViewModel extends ViewModel {
     notifyListeners();
   }
 
-  validateSignIn(String userName, String password) {
-    if (userName.isEmpty) {
-      ToastMessages().showWarningToast('User name is empty!');
+  validateSignIn(String email, String password) {
+    if (email.isEmpty) {
+      ToastMessages().showWarningToast('Email name is empty!');
       return;
     }
 
@@ -35,8 +39,21 @@ class SignInViewModel extends ViewModel {
       return;
     }
 
-    // var signIn = SignIn(userName: userName, password: password);
-    // userSignIn(signIn);
+    signIn(email, password);
   }
 
+  signIn(String emailAddress, String password,) async {
+    showProgressBar();
+    await SignInRepository().signIn(emailAddress, password, _onSignInComplete);
+  }
+
+  _onSignInComplete(Result result) {
+    if (result.isSuccess) {
+      Navigator.pushNamedAndRemoveUntil(context, AppRoute.home, (route) => false);
+    } else {
+      ToastMessages().showErrorToast(result.message!);
+    }
+
+    hideProgressBar();
+  }
 }
