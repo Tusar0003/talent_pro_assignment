@@ -49,7 +49,12 @@ class SignInViewModel extends ViewModel {
 
   _onSignInComplete(Result result) {
     if (result.isSuccess) {
-      Navigator.pushNamedAndRemoveUntil(context, AppRoute.home, (route) => false);
+      Navigator.pushNamedAndRemoveUntil(
+          context,
+          AppRoute.home,
+          (route) => false,
+          arguments: result.data
+      );
     } else {
       ToastMessages().showErrorToast(result.message!);
     }
